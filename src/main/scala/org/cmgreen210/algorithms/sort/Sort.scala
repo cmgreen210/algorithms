@@ -8,7 +8,7 @@ object Sort {
     val n: Int = arr.length
     for (i <- 0 until n) {
       var j = i
-      while (j >= 0 && arr(j-1) > arr(j)) {
+      while (j > 0 && arr(j-1) > arr(j)) {
         val t = arr(j-1)
         arr(j-1) = arr(j)
         arr(j) = t
