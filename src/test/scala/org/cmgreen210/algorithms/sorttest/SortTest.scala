@@ -33,6 +33,8 @@ class InsertionSortTest extends FlatSpec with Matchers {
     Sort.insertionSort(arr)
     assert(SortTestUtils.isSorted(arr))
 
-    assert(false)
+    arr = Array[Int]()
+    Sort.insertionSort(arr)
+    assert(SortTestUtils.isSorted(arr))
   }
 }
