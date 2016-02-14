@@ -5,6 +5,7 @@ import org.scalatest.FlatSpec
 import org.scalatest.Matchers
 import org.scalatest.concurrent.TimeLimitedTests
 import org.scalatest.time.SpanSugar._
+import org.scalatest._
 
 import scala.math.Ordered._
 import scala.util.Random
