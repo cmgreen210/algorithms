@@ -26,7 +26,6 @@ class SpeedFailTest extends FlatSpec with Timeouts {
 
 class InsertionSortTest extends FlatSpec with Sort with Timeouts with Matchers {
 
-
   override def sort[T: Ordering](arr: Array[T]): Array[T] ={
     InsertionSort.sort(arr)
   }
@@ -42,5 +41,25 @@ class InsertionSortTest extends FlatSpec with Sort with Timeouts with Matchers {
 
   it should "show stability" in {
     generalStabilityCheck(this)
+  }
+}
+
+class SelectionSortTest extends FlatSpec with Sort with Timeouts with Matchers {
+
+  override def sort[T: Ordering](arr: Array[T]): Array[T] ={
+    SelectionSort.sort(arr)
+  }
+
+  it should "do insertion sort!" in {
+    generalSortCheck(this)
+  }
+
+  it should "catch a timeout exception because insertion sort is slow!" in {
+    val speedFail = new SpeedFailTest
+    speedFail.run(this)
+  }
+
+  it should "show instability" in {
+    generalStabilityCheckFail(this)
   }
 }

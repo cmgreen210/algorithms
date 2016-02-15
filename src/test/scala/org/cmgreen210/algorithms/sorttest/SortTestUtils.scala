@@ -45,21 +45,31 @@ object SortTestUtils {
 
   def getArrayForStableCheck: Array[IntWrapper] = {
     Array[IntWrapper](
+      new IntWrapper(5),
       new IntWrapper(7),
       new IntWrapper(5),
-      new IntWrapper(2),
-      new IntWrapper(5)
+      new IntWrapper(2)
     )
   }
 
   def generalStabilityCheck(algo: Sort): Unit = {
     val arr = getArrayForStableCheck
-    val first5 = arr(1).toString
-    val second5 = arr(3).toString
+    val first5 = arr(0).toString
+    val second5 = arr(2).toString
     algo.sort(arr)
 
     assert(arr(1).toString == first5)
     assert(arr(2).toString == second5)
+  }
+
+  def generalStabilityCheckFail(algo: Sort): Unit = {
+    val arr = getArrayForStableCheck
+    val first5 = arr(0).toString
+    val second5 = arr(2).toString
+    algo.sort(arr)
+
+    assert(arr(1).toString != first5)
+    assert(arr(2).toString != second5)
   }
 }
 
