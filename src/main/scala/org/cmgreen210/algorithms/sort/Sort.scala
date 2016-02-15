@@ -2,9 +2,13 @@ package org.cmgreen210.algorithms
 
 import scala.math.Ordered._
 
-object Sort {
+trait Sort {
+  def sort[T: Ordering](arr: Array[T]): Array[T]
+}
 
-  def insertionSort[T: Ordering](arr: Array[T]): Unit = {
+object InsertionSort extends Sort {
+
+  override def sort[T: Ordering](arr: Array[T]): Array[T] ={
     val n: Int = arr.length
     for (i <- 0 until n) {
       var j = i
@@ -15,9 +19,6 @@ object Sort {
         j -= 1
       }
     }
-  }
-
-  def mergeSort[T: Ordering](arr: Array[T]): Unit = {
-
+    arr
   }
 }

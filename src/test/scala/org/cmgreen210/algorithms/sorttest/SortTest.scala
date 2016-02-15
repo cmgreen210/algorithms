@@ -2,40 +2,45 @@ package org.cmgreen210.algorithms.sorttest
 
 import org.cmgreen210.algorithms._
 import org.cmgreen210.algorithms.sorttest.SortTestUtils._
-import org.scalatest.FlatSpec
+import org.scalatest.{FlatSpec, Matchers}
 import org.scalatest.concurrent.Timeouts
 import org.scalatest.exceptions.TestFailedDueToTimeoutException
 import org.scalatest.time.SpanSugar._
 
-import scala.util.Random
-import scala.io.Source
 
-class InsertionSortTest extends FlatSpec with Timeouts {
+class SpeedFailTest extends FlatSpec with Timeouts {
 
   lazy val SPEED_FAIL = 100 millis
+  lazy val arr: Array[Int] = loadArray("arr10000.csv")
+
+  def run(algo: Sort): Unit = {
+    it should "timeout" in {
+      intercept[TestFailedDueToTimeoutException] {
+        failAfter(SPEED_FAIL) {
+          algo.sort(arr)
+        }
+      }
+    }
+  }
+}
+
+class InsertionSortTest extends FlatSpec with Sort with Timeouts with Matchers {
+
+
+  override def sort[T: Ordering](arr: Array[T]): Array[T] ={
+    InsertionSort.sort(arr)
+  }
 
   it should "do insertion sort!" in {
-
-    var arr: Array[Int] = Array.fill(100)(Random.nextInt)
-    Sort.insertionSort(arr)
-    assert(isSorted(arr))
-
-    arr = Array.fill(1)(Random.nextInt)
-    Sort.insertionSort(arr)
-    assert(isSorted(arr))
-
-    arr = Array[Int]()
-    Sort.insertionSort(arr)
-    assert(isSorted(arr))
+    generalSortCheck(this)
   }
 
   it should "catch a timeout exception because insertion sort is slow!" in {
+    val speedFail = new SpeedFailTest
+    speedFail.run(this)
+  }
 
-    val arr: Array[Int] = loadArray("arr10000.csv")
-    intercept[TestFailedDueToTimeoutException] {
-      failAfter(SPEED_FAIL) {
-        Sort.insertionSort(arr)
-      }
-    }
+  it should "show stability" in {
+    generalStabilityCheck(this)
   }
 }
