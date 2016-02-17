@@ -43,3 +43,43 @@ object SelectionSort extends Sort {
     arr
   }
 }
+
+object MergeSort extends Sort {
+  override def sort[T: Ordering](arr: Array[T]): Array[T] = {
+    val workspace = arr.clone
+    split(arr, 0, arr.length, workspace)
+    arr
+  }
+
+  private def split[T: Ordering](arr: Array[T], iBegin: Int,
+                                 iEnd: Int, workspace: Array[T]): Unit = {
+    if (iEnd - iBegin < 2) return
+    val iMid: Int = (iEnd + iBegin) / 2
+    split(arr, iBegin, iMid, workspace)
+    split(arr, iMid, iEnd, workspace)
+    merge(arr, iBegin, iMid, iEnd, workspace)
+    copy(workspace, iBegin, iEnd, arr)
+  }
+
+  private def merge[T: Ordering](arr: Array[T], iBegin: Int, iMid: Int,
+                                 iEnd: Int, workspace: Array[T]): Unit = {
+    var l = iBegin
+    var r = iMid
+
+    for (i <- iBegin until iEnd) {
+      if (l < iMid && (r >= iEnd || arr(l) <= arr(r))) {
+        workspace(i) = arr(l)
+        l += 1
+      } else {
+        workspace(i) = arr(r)
+        r += 1
+      }
+    }
+  }
+  private def copy[T: Ordering](workspace: Array[T], iBegin: Int, iEnd: Int,
+                                arr: Array[T]): Unit = {
+    for (k <- iBegin until iEnd) {
+      arr(k) = workspace(k)
+    }
+  }
+}

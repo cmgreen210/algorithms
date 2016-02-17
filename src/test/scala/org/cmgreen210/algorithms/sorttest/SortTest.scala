@@ -72,3 +72,19 @@ class SelectionSortTest extends FlatSpec with Sort with Timeouts with Matchers {
     generalStabilityCheckFail(this)
   }
 }
+
+class MergeSortTest extends FlatSpec with Sort with Timeouts with Matchers {
+
+  override def sort[T: Ordering](arr: Array[T]): Array[T] = {
+    MergeSort.sort(arr)
+  }
+
+  it should "do merge sort!" in {
+    generalSortCheck(this)
+  }
+
+  it should "not time out" in {
+    val speedPass = new SpeedTest
+    speedPass.pass(this)
+  }
+}
