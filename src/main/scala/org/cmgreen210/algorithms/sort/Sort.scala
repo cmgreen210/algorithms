@@ -4,6 +4,12 @@ import scala.math.Ordered._
 
 trait Sort {
   def sort[T: Ordering](arr: Array[T]): Array[T]
+
+  def swap[T: Ordering](arr: Array[T], i: Int, j: Int): Unit = {
+    val t = arr(i)
+    arr(i) = arr(j)
+    arr(j) = t
+  }
 }
 
 object InsertionSort extends Sort {
@@ -76,10 +82,46 @@ object MergeSort extends Sort {
       }
     }
   }
+
   private def copy[T: Ordering](workspace: Array[T], iBegin: Int, iEnd: Int,
                                 arr: Array[T]): Unit = {
     for (k <- iBegin until iEnd) {
       arr(k) = workspace(k)
     }
+  }
+}
+
+object QuickSort extends Sort {
+  override def sort[T: Ordering](arr: Array[T]): Array[T] = {
+    quicksort(arr, 0, arr.length - 1)
+    arr
+  }
+
+  private def quicksort[T: Ordering](arr: Array[T],
+                                     left: Int, right: Int): Unit = {
+    if (left < right) {
+      val p = partition(arr, left, right)
+      quicksort(arr, left, p)
+      quicksort(arr, p + 1, right)
+    }
+  }
+
+  private def partition[T: Ordering](arr: Array[T],
+                                     left: Int, right: Int): Int = {
+    val pivot = arr(left)
+    var i = left - 1
+    var j = right + 1
+    while (true) {
+      do {
+        i += 1
+      } while (arr(i) < pivot)
+      do {
+        j -= 1
+      } while (arr(j) > pivot)
+      if (i >= j)
+        return j
+      swap(arr, i, j)
+    }
+    -1 // shouldn't happen!
   }
 }

@@ -88,3 +88,19 @@ class MergeSortTest extends FlatSpec with Sort with Timeouts with Matchers {
     speedPass.pass(this)
   }
 }
+
+class QuickSortTest extends FlatSpec with Sort with Timeouts with Matchers {
+
+  override def sort[T: Ordering](arr: Array[T]): Array[T] = {
+    QuickSort.sort(arr)
+  }
+
+  it should "do quick sort!" in {
+    generalSortCheck(this)
+  }
+
+  it should "not time out" in {
+    val speedPass = new SpeedTest
+    speedPass.pass(this)
+  }
+}
